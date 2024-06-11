@@ -1,0 +1,62 @@
+{% extends 'base1.html' %}
+{% load humanize %}
+
+{% block content %}
+
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- @TODO: replace SET_YOUR_CLIENT_KEY_HERE with your client key -->
+        <script type="text/javascript"
+        src="https://app.sandbox.midtrans.com/snap/snap.js"
+        data-client-key="{{ client_key }}";></script>
+        <!-- Note: replace with src="https://app.midtrans.com/snap/snap.js" for Production environment -->
+    </head>
+    <body>
+        <div class="columns is-centered mt-4">
+            <div class="column is-one-quarter">
+                <div class="card">
+                    <div class="card-image">
+                        <figure class="image">
+                            <img src="{{ product.image_url }}" alt="{{ product.name }}">
+                        </figure>
+                    </div>
+
+                    <div class="card-content">
+                        <span class="tag {% if midtrans_status == 'pending' %}is-warning{% elif midtrans_status == 'settlement' %}is-success{% endif %}">{{ status }}</span>
+                        <p class="title">{{ product.name }}</p>
+                        <p class="subtitle">Rp.{{ product.price|intcomma }}</p>
+                        <p>Please scan the QR code below to complete your payment using GoPay:</p>
+                        <p>Transaction ID: {{ transaction_id }}</p>
+
+
+                        <footer class="card-footer">
+                            <p class="card-footer-item">
+                                <span>
+                                    {% if midtrans_status == 'pending' %}
+                                        <a href="{% url 'payment-confirmation' transaction_id %}">Konfirmasi Selesai Pembayaran</a>
+                                    {% elif midtrans_status == 'settlement' %}
+                                        <a href="{% url 'indexbayar' %}">Kembali</a>
+                                    {% endif %}
+                                </span>
+                            </p>
+                        </footer>
+                        <button id="pay-button">Pay!</button>
+                        <script type="text/javascript">
+                            var payButton = document.getElementById('pay-button');
+                            payButton.addEventListener('click', function () {
+                                // Replace with your logic to generate the transaction token
+                                var transactionToken = "{{ transaction_token }}";
+                    
+                                // Trigger the Snap payment popup
+                                window.snap.pay(transactionToken);
+                            });
+                        </script>
+                    </div>    
+                </div>
+            </div>
+        </div>
+    {% endblock content %}
+    </body>
+
+</html>
