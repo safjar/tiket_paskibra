@@ -1,0 +1,208 @@
+{% extends 'base2.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Tickets</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+    .view-qrcode {
+  /* Adjust overall margins/padding for mobile and web as needed */
+  margin: 1rem;
+}
+
+.card-wrapper {
+  background-color: #890000; /* Ganti dengan warna abu-abu yang Anda inginkan */
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.image-container {
+  flex: 1;
+  max-width: 100%; /* Batasi lebar maksimum gambar */
+}
+
+.img-fluid {
+  width: 100%;
+  height: auto;
+}
+
+.details-container {
+  flex: 0 0 200px;
+  padding: 1rem;
+}
+
+.text-right {
+  text-align: center;
+}
+
+.text-light {
+  color: rgba(255, 255, 255, 0.722);
+}
+
+/* Media queries for additional mobile-specific adjustments (optional) */
+@media (max-width: 768px) {
+  .card-wrapper {
+    flex-direction: column;
+  }
+
+  .image-container,
+  .details-container {
+    flex: 1;
+  }
+}
+
+
+.card-body {
+    background: rgba(0, 0, 0, 0.5); /* Memberikan latar belakang semi transparan pada teks agar lebih mudah dibaca */
+    padding: 20px;
+    border-radius: 10px;
+}
+
+        /* Gaya untuk modal */
+        .modal-dialog {
+            max-width: 500px;
+            margin: 1.75rem auto;
+        }
+    
+        .modal-content {
+            border: 1px;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        }
+    
+        .modal-header {
+            background-image: linear-gradient(90deg, #000000, #d30000);
+            color: white;
+            border-radius: 15px 15px 0 0;
+            padding: 15px;
+            border-bottom: none; /* Menghilangkan border bawah pada header */
+        }
+    
+        .modal-title {
+            font-weight: bold;
+            color: white;
+            text-shadow: -1px -1px 0 #000,  
+                    1px -1px 0 #000,
+                    -1px  1px 0 #000,
+                     1px  1px 0 #000; /* Efek shadow untuk membuat border hitam di sekeliling teks */
+        padding: 8px; /* Padding di dalam teks judul */
+        }
+    
+        .modal-body {
+            padding: 20px;
+        }
+    
+        .close {
+            color: white; /* Warna teks tombol close */
+            opacity: 1; /* Opacity tetap 1 untuk menunjukkan tombol close */
+            font-size: 1.5rem;
+        }
+    
+        .close:hover {
+            opacity: 5; /* Tetapkan opacity saat tombol close dihover */
+        }
+    
+        /* Mengatur ukuran font untuk teks dalam modal */
+        .modal-content{
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        }
+        .modal-body {
+            font-size: 1rem;
+        }
+    
+        /* Mengatur gambar QR code ke tengah modal */
+        #qrCodeBody img {
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="about_area black_bg">
+        <div class= "gambar">
+            <img src="static/atas.png" alt="" dis>
+        </div>
+            {% if user.is_authenticated %}
+            <div class="container">
+                <div class="row align-items-center justify-content-center">
+                    <div class="col-xl-12">
+                        <div class="about_area black_bg" style="height: 100vh;">
+                            <section class="product-section" style="margin-top: 20px;">
+                                {% if orders %}
+                                    {% for Order in orders %}
+                                        <div class="view-qrcode" data-order-id="{{ Order.id }}">
+                                            <div class="card-wrapper p-2 text-right bg-grey shadow-5 rounded d-flex align-items-center">
+                                                <div class="image-container">
+                                                <img src="{{ Order.product_id.product_images.url }}" alt="Product Image" class="img-fluid">
+                                                </div>
+                                                <div class="details-container">
+                                                <h3 class="text-right text-light">Tanggal Pembelian : </h3>
+                                                <h5 class="text-right text-light">{{ Order.created }}</h5>
+                                                <p>Presale 2 </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <div class="container">
+                                        <div class="row justify-content-center align-items-center" style="height: 20vh;">
+                                        <div class="col-md-6">
+                                            <div class="p-5 text-center bg-light shadow-5 rounded mb-5 d-flex flex-column justify-content-center align-items-center">
+                                            <div>
+                                                <i class="fas fa-ticket-alt fa-3x my-4"></i>
+                                                <h1>Anda belum Memiliki Tiket</h1>
+                                                <p>Silahkan melakukan pembelian</p>
+                                            </div>
+                                            <a href="/" class="btn btn-danger mt-3">Kembali ke Beranda</a>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                                                    
+                                {% endif %}
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div> 
+
+    <!-- Modal -->
+    <div class="modal fade" id="qrModal" tabindex="-1" role="dialog" aria-labelledby="qrModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="qrModalLabel">Tunjukan Kode Ini Kepada Panitia </h5>
+                </div>
+                <div class="modal-body" id="qrCodeBody">
+                    <!-- Placeholder for QR Code image -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <script>
+        $(document).ready(function() {
+            $('.view-qrcode').click(function() {
+                var orderId = $(this).data('order-id');
+                var qrUrl = "{% url 'generate_qr_code' 0 %}".replace('0', orderId);
+                
+                // Mengganti isi modal body dengan QR code
+                $('#qrCodeBody').html( orderId + '</p><img src="' + qrUrl + '" class="img-fluid" alt="QR Code">');
+
+                // Menampilkan modal
+                $('#qrModal').modal('show');
+            });
+        });
+    </script>
+    {% endif %}
+</body>
+</html>
+{% endblock %}

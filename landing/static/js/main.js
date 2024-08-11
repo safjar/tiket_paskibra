@@ -190,29 +190,30 @@ $('.popup-video').magnificPopup({
   // blog-page
 
   //brand-active
-$('.brand-active').owlCarousel({
-  loop:true,
-  margin:30,
-items:1,
-autoplay:true,
-  nav:false,
-dots:false,
-autoplayHoverPause: true,
-autoplaySpeed: 800,
-  responsive:{
-      0:{
-          items:1,
-          nav:false
+  $('.brand-active').owlCarousel({
+    loop:true,
+    margin:30,
+  items:1,
+  autoplay:true,
+    nav:false,
+  dots:false,
+  autoplayHoverPause: true,
+  autoplayTimeout: 100,
+  autoplaySpeed: 500,
+    responsive:{
+        0:{
+            items:1,
+            nav:false
 
-      },
-      767:{
-          items:4
-      },
-      992:{
-          items:7
-      }
-  }
-});
+        },
+        767:{
+            items:4
+        },
+        992:{
+            items:7
+        }
+    }
+  });
 
 // blog-dtails-page
 

@@ -3,31 +3,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Design by foolishdeveloper.com -->
     <title>Signup Page</title>
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+
     <!--Stylesheet-->
-        <style media="screen">
-        *,
+<style>
+    *,
     *:before,
     *:after{
-        padding: 0;
-        margin: 0;
-        box-sizing: border-box;
-    }
-    body{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+    html, body {
+            height: 100%;
+            margin: 0;
+        }
+    body {
+        display: flex;
+        justify-content: center;
         background-color: #080710;
     }
-    .background{
-        width: 430px;
-        height: 520px;
+    .background {
         position: absolute;
-        transform: translate(-50%,-50%);
-        left: 50%;
-        top: 50%;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: -1;
     }
     .background .shape{
         height: 200px;
@@ -35,30 +42,14 @@
         position: absolute;
         border-radius: 50%;
     }
-    .shape:first-child{
-        background: linear-gradient(
-            #ad1818,
-            #f62354
-        );
-        left: -80px;
-        top: -80px;
-    }
-    .shape:last-child{
-        background: linear-gradient(
-            to right,
-            #ad1818,
-            #f62354
-        );
-        right: -30px;
-        bottom: -80px;
-    }
+
     form{
-        height: 800px;
-        width: 450px;
+        height: auto;
+        width: 400px;
         background-color: rgba(255,255,255,0.13);
         position: absolute;
         transform: translate(-50%,-50%);
-        top: 50%;
+        top: 55%;
         left: 50%;
         border-radius: 10px;
         backdrop-filter: blur(10px);
@@ -73,11 +64,17 @@
         outline: none;
         border: none;
     }
-    form h3{
+    form h1{
         font-size: 32px;
         font-weight: 500;
         line-height: 42px;
         text-align: center;
+    }
+    form h3,h5{
+        text-align: center;
+    }
+    form h5 {
+        padding-top: 20px;
     }
 
     label{
@@ -88,7 +85,7 @@
     }
     input{
         display: block;
-        height: 40px;
+        height: 50px;
         width: 100%;
         background-color: rgba(255,255,255,0.07);
         border-radius: 3px;
@@ -111,27 +108,22 @@
         border-radius: 5px;
         cursor: pointer;
     }
-    .social{
-    margin-top: 30px;
-    display: flex;
-    }
-    .social div{
-    background: red;
-    width: 150px;
-    border-radius: 3px;
-    padding: 5px 10px 10px 5px;
-    background-color: rgba(255,255,255,0.27);
-    color: #eaf0fb;
-    text-align: center;
-    }
-    .social div:hover{
-    background-color: rgba(255,255,255,0.47);
-    }
-    .social .fb{
-    margin-left: 25px;
-    }
-    .social i{
-    margin-right: 4px;
+    @media (max-width: 350px) {
+        .background.login-form{
+            width: 100%;
+            height: 100%;
+        }
+        .shape:first-child {
+            left: -100px;
+            top: -100px;
+        }
+        .shape:last-child {
+            right: -100px;
+            bottom: -100px;
+        }
+        .login-form {
+            padding: 0px 0px;
+        }
     }
 
     </style>
@@ -141,11 +133,17 @@
         <div class="shape"></div>
         <div class="shape"></div>
     </div>
+    <div style="height: 50px;"></div>
     <form action="" method="post">
+        <h1>Daftar Akun</h1>
         {% csrf_token %} 
         {{ form|crispy }}
-        <button type="submit">Daftar</button>
-        <a href="{% url 'login' %}" >Sebelumnya sudah mempunyai akun ?</a>
+        <button type="submit">Daftar</button> 
+        <h5>Jika sudah memiliki akun</h5>
+        <h3><a href="{% url 'login' %}" > Login Disini</a></h3>
     </form>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

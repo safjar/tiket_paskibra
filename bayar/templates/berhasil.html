@@ -1,0 +1,45 @@
+{% extends 'base2.html' %}
+{% load humanize %}
+{% load crispy_forms_tags%}
+{% load static %}
+{% block content %}
+<div class="about_area black_bg">
+    <div class= "gambar">
+        <img src="static/atas.png" alt="" dis>
+    </div>
+    <div class="container"></div>
+        <div class="slider_area">
+                <div class="container">
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-xl-12">
+
+                            <section class="product-section" style="margin-top: 20px;">
+                                
+                                {% for Product in products %}
+                                
+                                <div id="tiket" class="p-5 text-left bg-light shadow-5 rounded mb-5 d-flex align-items-center"  style="background-image: url('/static/wp.jpg'); background-size: cover; background-position: center;">
+                                    <div style="flex: 0 0 35%; max-width: 35%; margin-right: 20px;">
+                                        <img src="{{ Product.product_images.url }}" class="img-fluid rounded" alt="{{ Product.name }}">
+                                    </div>
+                                    
+                                    <div style="flex: 1;">
+                                        <h1 class="mb-3 h2" style="font-size: 3rem;">{{ Product.name }}</h1>
+                                        <p class="mb-3">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                        <a class="btn btn-primary m-2" href="{% url 'checkout' product_id=Product.id %}" role="button">Checkout</a>
+                                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </section>
+                            
+                        </div>
+                    </div>
+                    
+                </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+
+

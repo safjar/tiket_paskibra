@@ -25,6 +25,7 @@
         <link rel="stylesheet" href="{% static 'css/slicknav.css' %}">
         <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
+
         <!-- <link rel="stylesheet" href="css/responsive.css"> -->
     </head>
 
@@ -43,7 +44,7 @@
                                 <div class="col-xl-3 col-lg-3">
                                     <div class="logo">
                                         <a href="index.html">
-                                            <img src="static/img/logo.png" alt="">
+                                            <img src="{% static 'img/logo.png' %}" alt="">
                                         </a>
                                     </div>
                                 </div>
@@ -51,8 +52,6 @@
                                     <div class="main-menu  d-none d-lg-block">
                                         <nav>
                                             <ul id="navigation">
-                                                <li><a href="{% url 'home' %}">Beranda</a></li>
-                                                <li><a href="{% url 'indexbayar' %}">Tiket</a></li>
                                             <!--  <li><a href="#">pages <i class="ti-angle-down"></i></a>
                                                     <ul class="submenu">
                                                         <li><a href="about.html">about</a></li>
@@ -61,10 +60,12 @@
                                                         <li><a href="elements.html">elements</a></li>
                                                     </ul>
                                                 </li>-->
-                                                <li><a href="contact.html">Contact</a></li>
 
                                                 {% if request.user.is_authenticated %}
-                                                <li><a href="#"><i class="fa fa-user"></i> {{ request.user }}<i class="ti-angle-down"></i></a>
+                                                <li><a href="{% url 'home' %}">Beranda</a></li>
+                                                <li><a href="{% url 'indexbayar' %}">Beli</a></li>
+                                                <li><a href="{% url 'mytiket' %}">Tiket Saya</a></li>
+                                                <li><a href="#"><i class="fa fa-user"></i> {{ request.user.profile.username }}<i class="ti-angle-down"></i></a>
                                                     <ul class="submenu">
                                                         <li><a href="{% url 'logout' %}">Sign Out </a></li>
                                                         <li><a href="{% url 'profile'%}">Profile </a></li>
@@ -72,6 +73,9 @@
                                                 </li>
 
                                                 {% else %}
+                                                <li><a href="{% url 'home' %}">Beranda</a></li>
+                                                <li><a href="{% url 'login' %}">Beli</a></li>
+                                                <li><a href="#informasi">Informasi</a></li>
                                                 <li><a href="#"> <i class="fa fa-user-plus"></i> Akun </i><i class="ti-angle-down"></i></a>
                                                     <ul class="submenu">
                                                         <li><a href="{% url 'login' %}">Masuk </a></li>
@@ -82,13 +86,6 @@
                                                 {% endif %}
                                             </ul>
                                         </nav>
-                                    </div>
-                                </div>
-                                <div class="col-xl-3 col-lg-3 d-none d-lg-block">
-                                    <div class="buy_tkt">
-                                        <div class="book_btn d-none d-lg-block">
-                                            <a href="#">Beli Sekarang</a>
-                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -104,6 +101,7 @@
         <!-- header-end -->
 
         {% block content %}
+        
         {% endblock %}
 
         <footer class="footer">
@@ -113,7 +111,7 @@
                         <div class="col-xl-12">
                             <p class="copy_right text-center wow fadeInDown" data-wow-duration="1s" data-wow-delay=".5s">
                                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                            Copyright
+                                Copyright 2024 Safjar <br>  Follow <a href="https://www.instagram.com/cak_jar/">@cak_jar</a> for more information
                             </p>
                         </div>
                     </div>

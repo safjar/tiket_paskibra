@@ -27,8 +27,15 @@ SECRET_KEY = "django-insecure-uh**1=z&b*an1!$xwqsfql9los8#9st2tvm!x#w$x3(@%m+jgo
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+#ALLOWED_HOSTS = ['29f9-36-85-18-1.ngrok-free.app','http://127.0.0.1:8000']
 
+#CSRF_TRUSTED_ORIGINS =['https://29f9-36-85-18-1.ngrok-free.app']
+
+#CSRF_COOKIE_DOMAIN = 'https://29f9-36-85-18-1.ngrok-free.app'
+
+#SESSION_COOKIE_HTTPONLY = True
+
+#CSRF_USE_SESSIONS = True
 
 # Application definition
 
@@ -135,11 +142,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
-STATIC_ROOT = BASE_DIR / 'landing/static' 
+STATIC_ROOT = BASE_DIR / 'landing/static'
 STATICFILES_DIRS = ['E:\piton\webtikcet\webpaskib\static']
 
-
-
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
@@ -151,3 +158,4 @@ MIDTRANS = {
     'SERVER_KEY': os.environ.get('MIDTRANS_SERVER_KEY'),
     'CLIENT_KEY': os.environ.get('MIDTRANS_CLIENT_KEY'),
 }
+

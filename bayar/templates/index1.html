@@ -1,40 +1,134 @@
 {% extends 'base2.html' %}
-{% load humanize %}
+{% load static %}
 {% block content %}
-<div class="about_area black_bg">
-    <div class="slider_area">
-            <div class="container">
-                <div class="row align-items-center justify-content-center">
-                    <div class="col-xl-12">
-                        <div class="slider_text text-center">
-                        <!-- <div class="shape_1 wow fadeInUp" data-wow-duration="1s" data-wow-delay=".2s">
-                                <img src="img/shape/shape_1.svg" alt="">
+
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="https://cdn.rawgit.com/thiagoh/de-animate/master/dist/jquery.de-animate.min.js"></script>
+    <style>
+        .card{
+            border: 1px solid white; /* Tambahkan border putih 5px */
+            margin-bottom: 50px;
+         padding: 0;
+        }
+.card-wrapper {
+    background-image: url('/static/wp.jpg');/* Ganti dengan warna abu-abu yang Anda inginkan */
+    border-radius: 15px;
+    overflow: hidden;
+    background-position: left;
+    background-size: cover;
+    
+    }
+
+.image-container {
+  flex:1;
+  max-width: 95%; /* Batasi lebar maksimum gambar */  
+  padding-top: 30px;
+  padding-bottom: 30px;
+
+}
+
+.img-fluid {
+  width: 100%;
+  height: auto;
+
+}
+
+.details-container {
+  flex: 0 10px 300px;
+  padding: 1rem;
+  text-align: center;
+}
+
+.text-right {
+  text-align: center;
+}
+
+.text-light {
+    justify-content: center;
+  color: rgba(255, 255, 255, 0.722);
+}
+
+/* Media queries for additional mobile-specific adjustments (optional) */
+@media (max-width: 768px) {
+  .card-wrapper {
+    flex-direction: column;
+  }
+  .text-light,.text-right{
+    font-size: 30px;
+ }
+  .image-container,
+  .details-container {
+    flex: 1;
+
+  }
+}
+    
+            .card {
+            background-image: url('/static/wp.jpg');
+            background-position: left;
+            background-size: cover;
+            border-radius: 0px;
+            background-color: #ffffff;
+            overflow: hidden;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
+            display: flex;
+            flex-direction: column;
+            align-items: left;
+            text-align: center;
+           
+        }
+
+        .img-fluid {
+            width: 80%;;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+            .card-footer{
+                max-height:60px;
+                width: 100%;
+            }
+    </style>
+</head>
+
+<body>
+    <div class="about_area black_bg">
+        <div class="gambar">
+            <img src="static/atas.png" alt="">
+        </div>
+        <div class="container">
+            <div class="slider_area">
+                <div class="container_content">
+                    <div class="row align-items-center justify-content-center">
+                        <h1 style="text-align: center; color: white; margin-top: 5%; margin-bottom: 5%;" >Pilihan Pembelian</h1>
+                        {% for Product in products %}
+                        <div class="card">
+                            <div class="card-container">
+    
+                                <div class="card-wrapper p-2 text-right bg-grey shadow-5 rounded d-flex align-items-center ">
+                                    <div class="image-container">
+                                        <img src="{{ Product.product_images.url }}" alt="Product Image" class="img-fluid">
+                                    </div>
+                                    
+                                    <div class="details-container">
+                                    <h1 class="text-right text-warning">Harga : Rp. {{ Product.price }},00 </h1>
+                                    <h5 class="text-right text-light">{{ Order.created }}</h5>
+                                    <p>Presale 2 </p>
+                                    </div>
+                                    
+                                </div>
+                               
                             </div>
-                            <div class="shape_2 wow fadeInDown" data-wow-duration="1s" data-wow-delay=".2s">
-                                <img src="img/shape/shape_2.svg" alt="">
-                            </div>-->
-                            <img src="static/1.png" alt="">
+                            <div><button style="width: 100%; height: 100%; background-image: linear-gradient(90deg, #000000, #d30000);"><a href="{% url 'checkout' product_id=Product.id %}" ><h3 style="color: #ffffff; margin-top: 10px;">Beli Tiket Sekarang</h3></a></button></div>
+                            </div>
                         </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
         </div>
-                {% for Product in products %}
-                        <div class="card bg-dark" style="max-width:100% background;">
-                            <div class="row g-0">
-                            <div class="col-md-4">
-                                <img src="{{ Product.image_url }}" class="img-fluid rounded-start" alt="{{ Product.name }}">
-                            </div>
-                            <div class="col-md-8">
-                                <div class="card-body text-danger">
-                                        <h3 class="card-title"> <a href="{% url 'checkout' product_id=Product.id %}">{{ Product.name }}</a></h3>  
-                                        <p class="card-text text-white">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                        <p class="card-text text-white"><small class="text-muted">Last updated 3 mins ago</small></p>
-                                </div>
-                            </div>
-                        </div>
-                {% endfor %}
-            </div>
     </div>
-</div>
+</body>
+</html>
 {% endblock content %}

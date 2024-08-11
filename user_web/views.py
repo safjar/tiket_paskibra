@@ -17,6 +17,7 @@ from django.contrib import messages
 
 #other apps
 from landing.views import homeview
+from bayar.views import panitia
 
 def home(request):
     # Your logic for the home page
@@ -47,17 +48,24 @@ def login_user(request):
         form = AuthenticationForm(data=request.POST)
 
         if form.is_valid():
-            username = form.cleaned_data.get('username')
+            email = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
 
-            user = authenticate(username=username, password=password)
+            print(f"Email: {email}, Password: {password}")  # Debugging
+
+            user = authenticate(username=email, password=password)
 
             if user is not None:
+                print(f"Authenticated user: {user}")  # Debugging
                 login(request, user)
-                return HttpResponseRedirect(reverse('home'))
+                if user.is_staff:
+                    return HttpResponseRedirect(reverse('panitia'))
+                else:
+                    return HttpResponseRedirect(reverse('home'))
+            else:
+                print("Authentication failed")  # Debugging
 
-    return render(request,'login.html', context={'form':form})
-
+    return render(request, 'login.html', context={'form': form})
 
 @login_required
 def logout_user(request):

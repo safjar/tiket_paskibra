@@ -16,10 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-from landing.views import homeview,infoview
-from bayar.views import checkout_view, check_payment_info_view,tiket_view
+from landing.views import homeview,infoview,mytiket
+from bayar.views import checkout_view,tiket_view,create_order_view,midtrans_notification,generate_qr_code,scaner,panitia,finish_payment,failure,cancel_payment,get_order
 from bayar import views
 from django.conf import settings
+from django.conf.urls.static import static  # new
 
 
 urlpatterns = [
@@ -28,10 +29,27 @@ urlpatterns = [
     path('info/',infoview.as_view(),name='info'),
     path("admin/", admin.site.urls),
     path('', include('user_web.urls')),
+    path('mytiket',mytiket.as_view(),name='mytiket'),
     
-
-    path('checkout/<product_id>', views.checkout_view, name='checkout'),
-    path('payment-confirmation/<reference_id>', check_payment_info_view, name='payment-confirmation'),
+    path('order/<product_id>',views.create_order_view,name='order'),
+    path('order/checkout/<product_id>', views.checkout_view, name='checkout'),
+    #path('payment-confirmation/<reference_id>', payment_status, name='payment-confirmation'),
     path('tiket', tiket_view, name='tiket'),
+
+    #get notification
+    path('midtrans/notification/', views.midtrans_notification, name='midtrans_notification'),
+    #Handle after payment
+    path('cancel_payment/', cancel_payment, name='cancel_payment'),
+    path('payment/finish', views.finish_payment, name='finish_payment'),
+    path('order/cancel/',failure , name='failure'),
+
+    path('qr_code/generate/<str:id>/', views.generate_qr_code, name='generate_qr_code'),
+
+    path('panitia/',views.panitia, name="panitia"),
+    path('panitia/scaner/',views.scaner, name='scaner'),
+    path('panitia/get_order/',views.get_order, name='details'),
+    path('panitia/get_order/<uuid:uuid>/',views.get_order, name='scanned-code'),
+    
 ]
 
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) #new
