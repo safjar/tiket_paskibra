@@ -27,15 +27,15 @@ SECRET_KEY = "django-insecure-uh**1=z&b*an1!$xwqsfql9los8#9st2tvm!x#w$x3(@%m+jgo
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-#ALLOWED_HOSTS = ['29f9-36-85-18-1.ngrok-free.app','http://127.0.0.1:8000']
+ALLOWED_HOSTS = ['ff7a-36-68-220-207.ngrok-free.app']
 
-#CSRF_TRUSTED_ORIGINS =['https://29f9-36-85-18-1.ngrok-free.app']
+CSRF_TRUSTED_ORIGINS =['https://ff7a-36-68-220-207.ngrok-free.app']
 
-#CSRF_COOKIE_DOMAIN = 'https://29f9-36-85-18-1.ngrok-free.app'
+CSRF_COOKIE_DOMAIN = 'https://ff7a-36-68-220-207.ngrok-free.app'
 
-#SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_HTTPONLY = True
 
-#CSRF_USE_SESSIONS = True
+CSRF_USE_SESSIONS = True
 
 # Application definition
 

@@ -7,6 +7,7 @@ from django.http import HttpRequest, HttpResponse
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
 
 # Forms & Models
 from user_web.forms import SignUpForm, ProfileForm
@@ -18,6 +19,7 @@ from django.contrib import messages
 #other apps
 from landing.views import homeview
 from bayar.views import panitia
+
 
 def home(request):
     # Your logic for the home page
@@ -76,15 +78,22 @@ def logout_user(request):
 
 @login_required
 def user_profile(request):
-    profile = Profile.objects.get(user=request.user)
+    try:
+        profile = Profile.objects.get(user=request.user)
+    except Profile.DoesNotExist:
+        # Jika profil tidak ada, buat objek profil baru
+        profile = Profile(user=request.user)
+    
     form = ProfileForm(instance=profile)
 
     if request.method == 'POST':
         form = ProfileForm(request.POST, instance=profile)
-
         if form.is_valid():
             form.save()
             messages.success(request, 'Profile updated successfully')
-            form = ProfileForm(instance=profile)
+            return redirect('profile')  # Redirect untuk menghindari resubmit form
+        
+        
 
-    return render(request, 'profile.html', context={'form':form})
+    return render(request, 'profile.html', context={'form': form})
+

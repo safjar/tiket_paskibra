@@ -35,6 +35,14 @@
             .card-content {
                 padding: 20px;
             }
+
+                .btn {
+                padding: 0.5rem 1rem;
+                min-width: 150px;
+                display: inline-block;
+                font-size: 16px;
+                text-align: center;
+            }
             
             @media (max-width: 767px) {
                 .card {
@@ -46,6 +54,12 @@
                 align-items: center; /* Center image vertically */
                 justify-content: center; /* Center image horizontally (optional) */
                 }
+
+                .btn {
+                padding: 0.75rem 1.5rem;
+                width: 100%; /* Membuat tombol memenuhi lebar container */
+                margin-bottom: 10px; /* Memberikan jarak antara tombol */
+            }
             }
             </style>
     </head>
@@ -68,11 +82,14 @@
                             <p>Pilih Tombol Bayar untuk melanjutkan pembayaran</p><br>
                             <div class="d-grid gap-2 d-md-flex justify-content-md-center">
                             
-                                <a href="{% url 'indexbayar' %}" class="btn btn-danger">Kembali</a>
-                                <button id="pay-button" class="btn btn-success me-md-2">Bayar</button>  <form method="POST" action="{% url 'cancel_payment' %}">
-                                {% csrf_token %}
-                                <input type="hidden" name="transaction_id" value="{{ order_id }}">
-                                <button id="cancel-button" class="btn btn-outline-light">Konfirmasi Pembatalan</button>  </form>    
+                                <a href="{% url 'indexbayar' %}" class="btn btn-danger me-md-2">Kembali</a>
+                                <button id="pay-button" class="btn btn-success me-md-2">Bayar</button> 
+                                <button id="cancel-button" class="btn btn-danger me-md-2">Konfirmasi Pembatalan</button>
+
+                                <form id="cancel-form" method="POST" action="{% url 'cancel_payment' %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="transaction_id" value="{{ order_id }}">
+                                </form>    
                             </div>
                         </div>
                         <div id="paymentConfirmationModal" class="popup-overlay">
@@ -119,7 +136,13 @@
                                 const transactionToken = '{{ transaction_token }}';  // Retrieve from context
                                 payButton.textContent = 'Lanjutkan';
                                 document.getElementById("cancel-button").style.display = "inline-block";
-                                // Modify button text before payment
+                                // Modify button text after click payment
+                                document.getElementById("cancel-button").addEventListener('click', function(event) {
+                                    event.preventDefault();  // Prevent the default button action
+
+                                    // Automatically submit the hidden cancellation form
+                                    document.getElementById("cancel-form").submit();
+                                });
                                 confirmPaymentButton.textContent = 'continue';
                                 
                             

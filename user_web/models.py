@@ -70,14 +70,22 @@ class User(AbstractBaseUser,PermissionsMixin):
 class Profile(models.Model):
     """A profile model for a user"""
     user = models.OneToOneField(User,on_delete=models.CASCADE, related_name="profile")
-    username = models.CharField(max_length=264,blank=True)
-    full_name = models.CharField(max_length=264,blank=True)
-    address_1 = models.CharField(max_length=300,blank=True)
-    phone = models.CharField(max_length=20,blank=True)
-    date_joined = models.DateTimeField(auto_now_add=True)
+    nama_pengguna = models.CharField(max_length=264,blank=True)
+    nama_lengkap = models.CharField(max_length=264,blank=True)
+    tanggal_lahir = models.DateField(null=True, blank=True)
+    gender = models.CharField(max_length=10, choices=[('Pria', 'Pria'), ('Wanita', 'Wanita')], blank=True)
+    alamat = models.CharField(max_length=300,blank=True)
+    nomor_telepon = models.CharField(max_length=20,blank=True)
+    tanggal_daftar = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.username + "'s profile"
+        return self.nama_pengguna + "'s profile"
+    
+    def formatted_date_of_birth(self):
+        """Mengembalikan tanggal lahir dalam format DD-MM-YYYY."""
+        if self.tanggal_lahir:
+            return self.tanggal_lahir.strftime('%d-%m-%Y')
+        return 'Tidak tersedia'
 
     def is_fully_filled(self):
         """Method to check if all the fields are filled"""

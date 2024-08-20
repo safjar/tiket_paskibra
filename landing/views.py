@@ -61,4 +61,3 @@ class mytiket(View):
             orders = Order.objects.none()
         context = {'user': request.user, 'orders': orders}
         return render(request, 'mytiket.html', context)
-

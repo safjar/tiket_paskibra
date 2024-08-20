@@ -23,7 +23,11 @@ import sys
 from django.views.decorators.csrf import csrf_exempt
 from io import BytesIO
 import qrcode
+from user_web.decorators import user_profile_required
 
+
+def test(request):
+    return render(request,'test.html')
 
 MIDTRANS_CORE = midtransclient.CoreApi(
     is_production=not settings.DEBUG,
@@ -40,7 +44,7 @@ serverkey = settings.MIDTRANS['SERVER_KEY']
 auth_headerr = f"Basic {base64.b64encode(serverkey.encode()).decode()}"
 
 
-
+@user_profile_required
 @login_required
 def tiket_view(request):
     products = Product.objects.all()
@@ -61,7 +65,7 @@ def create_order_view(request,product_id):
 
     return render(request, 'checkout.html', ctx)
 
-
+@user_profile_required
 @csrf_exempt
 def checkout_view(request,product_id):
 
@@ -79,7 +83,7 @@ def checkout_view(request,product_id):
     if request.user.is_authenticated:
         user = request.user
         profile = user.profile
-        username = user.profile.username
+        username = user.profile.nama_pengguna
         user_id = str(user.id)
 
         order_id_in_session = request.session.get('order_id')
@@ -118,8 +122,8 @@ def checkout_view(request,product_id):
     },
     "customer_details" : {
     "first_name" : username,
-    "phone" : profile.phone,
-    "address" : profile.address_1,
+    "phone" : profile.nomor_telepon,
+    "address" : profile.alamat,
         }
         }   
     try:
@@ -255,7 +259,7 @@ def cancel_payment(request):
 @login_required
 def finish_payment(request):
     order_id = request.GET.get('order_id')
-    payment_status = request.GET.get('payment_status')
+    #payment_status = request.GET.get('payment_status')
     if not order_id:
         return render(request, 'error.html', context={'error_message': 'Order ID not provided'})
     
@@ -326,16 +330,39 @@ def panitia(request):
 def scaner(request):
     return render(request,'scaner.html')
 
+
+@csrf_exempt
+def invalidate_order(request,id):
+    if request.method == 'POST':
+        try:
+            order = Order.objects.get(id=id)
+            order.validated = False
+            order.save()
+            context = {
+            'order': order,
+            'message': 'Order has been invalidated successfully.'  }
+            return render(request, 'modal.html', context)
+        except Order.DoesNotExist:
+            return JsonResponse({'status': 'error', 'message': 'Order not found'})
+    return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
+
+
+def display_result(request, uuid):
+    order = get_object_or_404(Order, id=uuid)
+    context = {
+        'order': order,
+        'validated': order.validated,
+    }
+    return render(request, 'modal.html', context)
+
 @login_required
-def get_order(request,uuid):
-    try:
-        order = Order.objects.get(id=uuid)
-        # Process order data
-        print('oke')
-    except Order.DoesNotExist:
-        raise Http404("Order not found")
-    
-    return render(request,'modal.html')
+def get_order(request, uuid):
+    order = get_object_or_404(Order, uuid=uuid)
+    context = {
+        'order': order,
+        'is_validated': order.validated,
+    }
+    return render(request, 'result_modal.html', context)
 
 
 def save(request,order_id,product):

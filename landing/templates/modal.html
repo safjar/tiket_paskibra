@@ -1,26 +1,166 @@
-<head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>   
-</head> 
-<body>
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <!DOCTYPE html>
+        <html lang="id">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            
+        </head>
+        <style>
+            /* Modal background overlay */
+.modal {
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.4); /* Black background with opacity */
+}
+
+/* Modal content box */
+.modal-content {
+    background-color: #fff; /* White background */
+    margin: 5% auto; /* Center the modal */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Width of the modal */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect */
+    position: relative; /* Relative positioning for close button */
+}
+
+/* Close button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 24px; /* Smaller font size */
+    font-weight: bold;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+/* Close button hover and focus */
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+}
+
+
+.button-container {
+    display: flex; /* Use flexbox layout */
+    gap: 10px; /* Space between items */
+    align-items: center; /* Align items vertically in the center */
+}
+/* Button styles */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    text-decoration: none; /* Remove underline from <a> elements */
+}
+
+/* Default button style */
+.btn-default {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Default button hover */
+.btn-default:hover {
+    background-color: #0056b3;
+}
+
+/* Success button style */
+.btn-success {
+    background-color: #28a745;
+    color: white;
+}
+
+/* Success button hover */
+.btn-success:hover {
+    background-color: #218838;
+}
+
+/* Danger button style */
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* Danger button hover */
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+    </style>
+
+        <body>
+            <!-- Modal -->
+   <!-- Modal -->
+   <div class="modal fade" id="resultModal" tabindex="-1" aria-labelledby="resultModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">KONTOL</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+                <h2 class="modal-title" id="resultModalLabel">
+                    {% if validated %}
+                        Tiket Siap Digunakan
+                    {% else %}
+                        Tiket Sudah Terpakai
+                    {% endif %}
+                </h2>
             </div>
             <div class="modal-body">
-            <p>Nama Produk: <span id="productName"></span></p>
-            <p>Harga: <span id="productPrice"></span></p>
+                {% if validated %}
+                    <p>Order ID : {{ order.id }}</p>
+                    <p>Jenis Tiket : {{ order.product_id.name }}</p>
+                    <p>Harga : Rp.{{ order.product_id.price }},00</p>
+                    <h3>Informasi User : </h3>
+                    <p>User : {{ order.user }}</p>
+                    <p>Tanggal Pembelian : {{ order.created }}</p>
+                {% else %}
+                    <p>Tiket ini sudah tidak dapat digunakan lagi !</p>
+                {% endif %}
             </div>
             <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                {% if validated %}
+                <div class="button-container">
+                    <a href="{% url 'scaner' %}" class="btn btn-danger">Kembali</a>
+                    <form action="{% url 'invalidate_order' order.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success">Gunakan Tiket</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'scaner' %}" class="btn btn-danger">Kembali</a>
+                {% endif %}
+                </div>
             </div>
         </div>
-        </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7H+y0HD9s5"  crossorigin="anonymous"></script>
+</div>
+
+
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const uuid = urlParams.get('uuid');
+        
+                    if (uuid) {
+                        const modal = new bootstrap.Modal(document.getElementById('resultModal'));
+                        modal.show();
+                    }
+                });
+            </script>
+
 </body>
+        </html>

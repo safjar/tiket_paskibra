@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 from landing.views import homeview,infoview,mytiket
-from bayar.views import checkout_view,tiket_view,create_order_view,midtrans_notification,generate_qr_code,scaner,panitia,finish_payment,failure,cancel_payment,get_order
+from bayar.views import checkout_view,tiket_view,create_order_view,midtrans_notification,generate_qr_code,scaner,panitia,finish_payment,failure,cancel_payment,get_order,test,invalidate_order,display_result
 from bayar import views
 from django.conf import settings
 from django.conf.urls.static import static  # new
@@ -49,7 +49,12 @@ urlpatterns = [
     path('panitia/scaner/',views.scaner, name='scaner'),
     path('panitia/get_order/',views.get_order, name='details'),
     path('panitia/get_order/<uuid:uuid>/',views.get_order, name='scanned-code'),
+    path('panitia/display_result/<uuid:uuid>/', views.display_result, name='display_result'),
+    path('invalidate_order/<uuid:id>/', views.invalidate_order, name='invalidate_order'),
+    path('invalidate_result', views.invalidate_order, name='invalidate_result'),
+
     
+    path('test/', views.test, name='test'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) #new

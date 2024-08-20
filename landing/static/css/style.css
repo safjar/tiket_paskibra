@@ -704,49 +704,54 @@ h3 {
   z-index: 0;
   padding-bottom: 7px;
 }
+/* Untuk layar dengan lebar maksimum 320px */
+@media (max-width: 320px) {
+  .section_title h3 {
+    font-size: 24px; /* Ukuran font lebih kecil untuk layar sangat kecil */
+    line-height: 30px; /* Sesuaikan line-height agar sesuai */
+  }
+  .section_title h3 br {
+    display: none; /* Sembunyikan elemen <br> jika ada */
+  }
+}
 
+/* Untuk layar dengan lebar maksimum 767px (ponsel lebih besar) */
 @media (max-width: 767px) {
-  /* line 2, ../../Arafath/CL/December/236. Event-02/HTML/scss/_section_title.scss */
   .section_title h3 {
-    font-size: 50px;
-    line-height: 36px;
+    font-size: 36px; /* Ukuran font disesuaikan untuk ponsel */
+    line-height: 42px; /* Sesuaikan line-height agar sesuai */
+  }
+  .section_title h3 br {
+    display: none; /* Sembunyikan elemen <br> jika ada */
   }
 }
 
+/* Untuk layar dengan lebar antara 768px dan 991px (tablet kecil) */
 @media (min-width: 768px) and (max-width: 991px) {
-  /* line 2, ../../Arafath/CL/December/236. Event-02/HTML/scss/_section_title.scss */
   .section_title h3 {
-    font-size: 36px;
-    line-height: 42px;
+    font-size: 36px; /* Ukuran font disesuaikan untuk tablet kecil */
+    line-height: 42px; /* Sesuaikan line-height agar sesuai */
+  }
+  .section_title h3 br {
+    display: none; /* Sembunyikan elemen <br> jika ada */
   }
 }
 
+/* Untuk layar dengan lebar antara 992px dan 1200px (tablet besar hingga desktop kecil) */
 @media (min-width: 992px) and (max-width: 1200px) {
-  /* line 2, ../../Arafath/CL/December/236. Event-02/HTML/scss/_section_title.scss */
   .section_title h3 {
-    font-size: 35px;
-    line-height: 42px;
+    font-size: 35px; /* Ukuran font disesuaikan untuk tablet besar hingga desktop kecil */
+    line-height: 42px; /* Sesuaikan line-height agar sesuai */
+  }
+  .section_title h3 br {
+    display: none; /* Sembunyikan elemen <br> jika ada */
   }
 }
 
-@media (max-width: 767px) {
-  /* line 22, ../../Arafath/CL/December/236. Event-02/HTML/scss/_section_title.scss */
+/* Untuk layar lebih besar dari 1200px (desktop besar) */
+@media (min-width: 1201px) {
   .section_title h3 br {
-    display: none;
-  }
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-  /* line 22, ../../Arafath/CL/December/236. Event-02/HTML/scss/_section_title.scss */
-  .section_title h3 br {
-    display: none;
-  }
-}
-
-@media (min-width: 992px) and (max-width: 1200px) {
-  /* line 22, ../../Arafath/CL/December/236. Event-02/HTML/scss/_section_title.scss */
-  .section_title h3 br {
-    display: none;
+    display: none; /* Sembunyikan elemen <br> jika ada */
   }
 }
 
@@ -1517,51 +1522,6 @@ h3 {
   }
 }
 
-/* line 26, ../../Arafath/CL/December/236. Event-02/HTML/scss/_slider.scss */
-.slider_area .single_slider .slider_text .shape_2 {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  z-index: -1;
-}
-
-@media (max-width: 767px) {
-  /* line 26, ../../Arafath/CL/December/236. Event-02/HTML/scss/_slider.scss */
-  .slider_area .single_slider .slider_text .shape_2 {
-    width: 100px;
-    height: 100px;
-  }
-}
-
-@media (max-width: 767px) {
-  /* line 35, ../../Arafath/CL/December/236. Event-02/HTML/scss/_slider.scss */
-  .slider_area .single_slider .slider_text .shape_2 img {
-    width: 100%;
-  }
-}
-
-/* line 41, ../../Arafath/CL/December/236. Event-02/HTML/scss/_slider.scss */
-.slider_area .single_slider .slider_text .shape_1 {
-  position: absolute;
-  right: 0;
-  top: 0;
-  z-index: -1;
-}
-
-@media (max-width: 767px) {
-  /* line 41, ../../Arafath/CL/December/236. Event-02/HTML/scss/_slider.scss */
-  .slider_area .single_slider .slider_text .shape_1 {
-    width: 100px;
-    height: 100px;
-  }
-}
-
-@media (max-width: 767px) {
-  /* line 50, ../../Arafath/CL/December/236. Event-02/HTML/scss/_slider.scss */
-  .slider_area .single_slider .slider_text .shape_1 img {
-    width: 100%;
-  }
-}
 
 /* line 56, ../../Arafath/CL/December/236. Event-02/HTML/scss/_slider.scss */
 .slider_area .single_slider .slider_text span {
@@ -1955,35 +1915,6 @@ h3 {
   }
 }
 
-/* line 23, ../../Arafath/CL/December/236. Event-02/HTML/scss/_about.scss */
-.about_area .about_thumb .shap_3 {
-  position: absolute;
-  left: -90px;
-  z-index: 9;
-  bottom: -40px;
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-  /* line 23, ../../Arafath/CL/December/236. Event-02/HTML/scss/_about.scss */
-  .about_area .about_thumb .shap_3 {
-    left: -38px;
-  }
-}
-
-@media (max-width: 767px) {
-  /* line 23, ../../Arafath/CL/December/236. Event-02/HTML/scss/_about.scss */
-  .about_area .about_thumb .shap_3 {
-    display: none;
-  }
-}
-
-@media (min-width: 992px) and (max-width: 1200px) {
-  /* line 23, ../../Arafath/CL/December/236. Event-02/HTML/scss/_about.scss */
-  .about_area .about_thumb .shap_3 {
-    left: -18px;
-  }
-}
-
 /* line 38, ../../Arafath/CL/December/236. Event-02/HTML/scss/_about.scss */
 .about_area .about_thumb .thumb_inner {
   position: relative;
@@ -2070,49 +2001,7 @@ h3 {
   }
 }
 
-/* line 34, ../../Arafath/CL/December/236. Event-02/HTML/scss/_bradcam.scss */
-.bradcam_area .single_bradcam .bradcam_text .shape_1 {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-}
 
-@media (max-width: 767px) {
-  /* line 34, ../../Arafath/CL/December/236. Event-02/HTML/scss/_bradcam.scss */
-  .bradcam_area .single_bradcam .bradcam_text .shape_1 {
-    width: 100px;
-    height: 100px;
-  }
-}
-
-@media (max-width: 767px) {
-  /* line 42, ../../Arafath/CL/December/236. Event-02/HTML/scss/_bradcam.scss */
-  .bradcam_area .single_bradcam .bradcam_text .shape_1 img {
-    width: 100%;
-  }
-}
-
-/* line 48, ../../Arafath/CL/December/236. Event-02/HTML/scss/_bradcam.scss */
-.bradcam_area .single_bradcam .bradcam_text .shape_2 {
-  position: absolute;
-  bottom: -50px;
-  left: 0;
-}
-
-@media (max-width: 767px) {
-  /* line 48, ../../Arafath/CL/December/236. Event-02/HTML/scss/_bradcam.scss */
-  .bradcam_area .single_bradcam .bradcam_text .shape_2 {
-    width: 100px;
-    height: 100px;
-  }
-}
-
-@media (max-width: 767px) {
-  /* line 56, ../../Arafath/CL/December/236. Event-02/HTML/scss/_bradcam.scss */
-  .bradcam_area .single_bradcam .bradcam_text .shape_2 img {
-    width: 100%;
-  }
-}
 
 /* line 62, ../../Arafath/CL/December/236. Event-02/HTML/scss/_bradcam.scss */
 .bradcam_area .single_bradcam .bradcam_text span {

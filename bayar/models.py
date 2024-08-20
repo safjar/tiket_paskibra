@@ -46,7 +46,7 @@ class Order(models.Model):
     transaction_id = models.CharField(max_length=100, unique=True)  # Unique transaction ID
     created = models.DateTimeField(auto_now_add=True)
     ordered = models.BooleanField(default=False)
-    
+    validated = models.BooleanField(default=True)    
     def get_qr_code_url(self):
         return reverse('generate_qr_code', args=[self.id])
 

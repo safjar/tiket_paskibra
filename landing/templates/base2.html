@@ -65,7 +65,7 @@
                                                 <li><a href="{% url 'home' %}">Beranda</a></li>
                                                 <li><a href="{% url 'indexbayar' %}">Beli</a></li>
                                                 <li><a href="{% url 'mytiket' %}">Tiket Saya</a></li>
-                                                <li><a href="#"><i class="fa fa-user"></i> {{ request.user.profile.username }}<i class="ti-angle-down"></i></a>
+                                                <li><a href="#"><i class="fa fa-user"></i> {{ request.user.profile.nama_pengguna }}<i class="ti-angle-down"></i></a>
                                                     <ul class="submenu">
                                                         <li><a href="{% url 'logout' %}">Sign Out </a></li>
                                                         <li><a href="{% url 'profile'%}">Profile </a></li>

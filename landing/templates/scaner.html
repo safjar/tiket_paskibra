@@ -2,6 +2,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script type="text/javascript" src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>  
@@ -20,22 +22,87 @@
         
         #scanner {  
             width: 100%;
-            height: 50vh;
-            margin: 0px auto;
-            position: relative;
+            height: 60vh; /* Menyesuaikan tinggi menjadi 60% dari tinggi viewport */
+            max-width: 800px; /* Membatasi lebar maksimum */
+            margin: 0 auto;
             object-fit: cover;
-            object-position: center center;
+            object-position: center;
         }
         
         #scanner-focus {
-            background: #000000;
-            -webkit-clip-path: polygon(0% 0%, 0% 100%, 25% 100%, 25% 25%, 75% 25%, 75% 75%, 25% 75%, 25% 100%, 100% 100%, 100% 0%);
-            clip-path: polygon(0% 0%, 0% 100%, 25% 100%, 25% 25%, 75% 25%, 75% 75%, 25% 75%, 25% 100%, 100% 100%, 100% 0%);
+            background: rgba(0, 0, 0, 0.7); /* Transparansi area hitam */
+            -webkit-clip-path: polygon(
+                0% 0%, 
+                0% 100%, 
+                15% 100%, /* Memperkecil area hitam dari 25% menjadi 15% */
+                15% 15%, /* Memperkecil area hitam dari 25% menjadi 15% */
+                85% 15%, /* Memperkecil area hitam dari 75% menjadi 85% */
+                85% 85%, /* Memperkecil area hitam dari 75% menjadi 85% */
+                15% 85%, /* Memperkecil area hitam dari 25% menjadi 15% */
+                15% 100%, 
+                100% 100%, 
+                100% 0%
+            );
+            clip-path: polygon(
+                0% 0%, 
+                0% 100%, 
+                15% 100%, 
+                15% 15%, 
+                85% 15%, 
+                85% 85%, 
+                15% 85%, 
+                15% 100%, 
+                100% 100%, 
+                100% 0%
+            );
             height: 100%;
             width: 100%;
             top: 0;
             left: 0;
         }
+        /* Container for centering elements */
+.container-fluid {
+    display: flex; /* Use flexbox layout */
+    flex-direction: column; /* Stack items vertically */
+    justify-content: center; /* Center items vertically */
+    align-items: center; /* Center items horizontally */
+    height: auto; /* Full viewport height */
+    text-align: center; /* Center text inside the container */
+    gap: 10px; /* Space between items */
+}
+
+/* Style for input */
+.form-control {
+    width: 100%; /* Adjust width as needed */
+    max-width: 600px; /* Maximum width for larger screens */
+    margin-bottom: 10px; /* Space below the input */
+}
+
+/* Button styles */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    text-decoration: none; /* Remove underline from <a> elements */
+}
+
+/* Danger button style */
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* Danger button hover */
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
     </style>
 </head>
 <body>
@@ -44,19 +111,13 @@
         <video id="scanner"></video>
         <div id="scanner-focus" class="position-absolute"></div>
     </div>
-    <input type="text" name="text" id="text" readonly="" placeholder="scan" class="form-control">
+    <input type="text" name="text" id="text" readonly="" placeholder="Arahkan scanner ke barcode untuk melakukan pemindaian" class="form-control" >
+    <a href="{% url 'panitia' %}" class="btn btn-danger">Kembali</a>
 </div>
 
 {% include 'modal.html' %}
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
-        Launch demo modal
-    </button>
-    
-    
-    
-    
-        
 
+    
         <script>
         let scanner = new Instascan.Scanner({
         video: document.getElementById('scanner'),mirror:false
@@ -85,37 +146,21 @@
 
         // Add event listener for successful QR code scan
         scanner.addListener('scan', (content) => {
-        const pattern = /\/qr_code\/generate\/([0-9a-fA-F-]{36})\//;
-        const match = content.match(pattern);
+    const pattern = /\/qr_code\/generate\/([0-9a-fA-F-]{36})\//;
+    const match = content.match(pattern);
 
-        const uuid = match ? match[1] : 'No UUID found';
-            document.getElementById('text').value = uuid;
-            const baseUrl = 'https://df33-36-81-97-46.ngrok-free.app';
-            const url = `${baseUrl}/panitia/get_order/${uuid}/`;
-            $.ajax({
-            url: url,
-            success: function(data) {
-                return new Promise((resolve) => {
-                    resolve(data); // Resolve with data for further processing
-                });
-            }
-            })
-            .then(function(data) {
-                    // Ensure modal is ready before showing
-                $('#myModal').modal('show');
+    const uuid = match ? match[1] : 'No UUID found';
+    document.getElementById('text').value = uuid;
+    const baseUrl = 'https://696a-36-68-220-174.ngrok-free.app';
 
-                // Populate modal content with data from response
-                $('#exampleModalLabel').text('Detail Order ' + data.order.id); // Assuming you have an order.id in the response
-                $('#productModal .modal-body p:first-child').text('Nama Produk: ' + data.product.name); // Assuming you have product.name in the response
-                $('#productModal .modal-body p:last-child').text('Harga: ' + data.product.price); // Assuming you have product.price in the response
-            })
-            .done(function(data) {
-                showModal(data);
-            })
-            .fail(function(error) {
-                console.error('Error:', error);
-                    });
-            });
+    if (uuid !== 'No UUID found') {
+        // Construct URL with the scanned UUID
+        const url = `${baseUrl}/panitia/display_result/${uuid}/`;
+        window.location.href = url; // Redirect to the URL
+    } else {
+        alert('Invalid QR code.');
+    }
+});
     </script>
 </body>
 </html>
